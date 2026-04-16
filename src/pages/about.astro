@@ -1,0 +1,69 @@
+---
+import Layout from '../components/astro/Layout.astro';
+import cards from '../data/cards.json';
+
+const legendary = cards.filter((c) => c.rarity === 'legendary');
+const rare       = cards.filter((c) => c.rarity === 'rare');
+const common     = cards.filter((c) => c.rarity === 'common');
+---
+
+<Layout title="About">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    <div class="space-y-4">
+      <h1 class="font-arcade text-xl text-[var(--text-primary)]">About</h1>
+      <p class="text-[var(--text-muted)] leading-relaxed">
+        Retro Arcade Legends is a statically-generated tradable card explorer celebrating the characters, machines,
+        and moments that defined coin-op arcade gaming from the 1970s through the 1990s. It was built as a live
+        coding demonstration of <a href="https://astro.build" class="text-[var(--arcade-gold)] hover:underline">Astro's island architecture</a>.
+      </p>
+    </div>
+
+    <section class="space-y-4">
+      <h2 class="font-arcade text-sm text-[var(--text-primary)]">The Collection</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {[
+          { label: 'Legendary', cards: legendary, colour: 'var(--arcade-red)' },
+          { label: 'Rare',      cards: rare,      colour: 'var(--arcade-gold)' },
+          { label: 'Common',    cards: common,    colour: 'var(--text-muted)' },
+        ].map(({ label, cards: rc, colour }) => (
+          <div class="rounded-xl border border-white/10 bg-[var(--bg-card)] p-4 space-y-2">
+            <div class="font-arcade text-[11px]" style={`color: ${colour}`}>{label}</div>
+            <div class="font-mono text-3xl font-bold" style={`color: ${colour}`}>{rc.length}</div>
+            <div class="text-[10px] text-[var(--text-muted)] space-y-0.5">
+              {rc.map((c) => <div>{c.name}</div>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="font-arcade text-sm text-[var(--text-primary)]">Stat Guide</h2>
+      <div class="rounded-xl border border-white/10 bg-[var(--bg-card)] p-6 space-y-4">
+        {[
+          { stat: 'Influence', description: 'How much this game shaped the titles that came after it. A score of 100 means it invented or perfected its genre.' },
+          { stat: 'Quarters',  description: 'How aggressively it ate your coins — a combination of difficulty, addictiveness, and replayability.' },
+          { stat: 'Legacy',    description: 'Its enduring cultural impact. Does the wider world still know and reference this game decades later?' },
+        ].map(({ stat, description }) => (
+          <div class="space-y-1">
+            <div class="font-arcade text-[11px] text-[var(--arcade-gold)]">{stat}</div>
+            <p class="text-sm text-[var(--text-muted)]">{description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="font-arcade text-sm text-[var(--text-primary)]">Tech Stack</h2>
+      <div class="rounded-xl border border-white/10 bg-[var(--bg-card)] p-6">
+        <ul class="space-y-2 text-sm text-[var(--text-muted)]">
+          <li><span class="text-[var(--text-primary)] font-medium">Framework:</span> Astro 4 — static output, near-zero JS</li>
+          <li><span class="text-[var(--text-primary)] font-medium">Islands:</span> React 18 with selective hydration directives</li>
+          <li><span class="text-[var(--text-primary)] font-medium">Styling:</span> Tailwind CSS 3 with CSS custom properties</li>
+          <li><span class="text-[var(--text-primary)] font-medium">Fonts:</span> Press Start 2P, Inter, JetBrains Mono via Google Fonts</li>
+          <li><span class="text-[var(--text-primary)] font-medium">Animations:</span> Pure CSS — no JS for shimmer or stat bars</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</Layout>

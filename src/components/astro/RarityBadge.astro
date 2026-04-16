@@ -1,0 +1,23 @@
+---
+interface Props {
+  rarity: 'common' | 'rare' | 'legendary';
+  size?: 'sm' | 'md';
+}
+
+const { rarity, size = 'md' } = Astro.props;
+
+const colours = {
+  common:    'bg-white/10 text-[var(--text-muted)] border border-white/20',
+  rare:      'bg-[var(--arcade-gold)]/20 text-[var(--arcade-gold)] border border-[var(--arcade-gold)]/40',
+  legendary: 'bg-[var(--arcade-red)]/20 text-[var(--arcade-red)] border border-[var(--arcade-red)]/40',
+};
+
+const sizes = {
+  sm: 'text-[9px] px-1.5 py-0.5',
+  md: 'text-[10px] px-2 py-1',
+};
+---
+
+<span class:list={['font-arcade rounded uppercase', colours[rarity], sizes[size]]}>
+  {rarity}
+</span>

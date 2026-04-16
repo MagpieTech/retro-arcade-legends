@@ -1,0 +1,98 @@
+---
+import RarityBadge from './RarityBadge.astro';
+import EraTag from './EraTag.astro';
+import StatBar from './StatBar.astro';
+
+interface Props {
+  card: {
+    id: string;
+    name: string;
+    type: 'character' | 'machine' | 'moment';
+    era: '1970s' | '1980s' | '1990s';
+    rarity: 'common' | 'rare' | 'legendary';
+    influence: number;
+    quarters: number;
+    legacy: number;
+    description: string;
+    quote: string;
+    colour: string;
+    tags: string[];
+    studio: string;
+    debut: number;
+  };
+}
+
+const { card } = Astro.props;
+
+const typeColours = {
+  character: 'var(--arcade-teal)',
+  machine:   'var(--arcade-purple)',
+  moment:    'var(--arcade-green)',
+};
+---
+
+<article
+  class:list={[
+    'rounded-2xl border border-white/10 bg-[var(--bg-card)] overflow-hidden',
+    card.rarity === 'legendary' ? 'card--legendary' : '',
+  ]}
+>
+  <!-- Hero accent bar -->
+  <div class="h-2 w-full" style={`background-color: ${card.colour}`} />
+
+  <div class="p-6 sm:p-8 space-y-6 relative z-10">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+      <div class="space-y-2">
+        <h1 class="font-arcade text-xl sm:text-2xl leading-relaxed text-[var(--text-primary)]">
+          {card.name}
+        </h1>
+        <div class="flex items-center gap-2 flex-wrap">
+          <span
+            class="text-[10px] font-arcade uppercase px-2 py-1 rounded border"
+            style={`color: ${typeColours[card.type]}; border-color: ${typeColours[card.type]}40; background-color: ${typeColours[card.type]}18`}
+          >
+            {card.type}
+          </span>
+          <RarityBadge rarity={card.rarity} />
+          <EraTag era={card.era} />
+        </div>
+      </div>
+
+      <div class="shrink-0 text-right">
+        <div class="font-mono text-4xl font-bold" style={`color: ${card.colour}`}>{card.debut}</div>
+        <div class="text-xs text-[var(--text-muted)]">{card.studio}</div>
+      </div>
+    </div>
+
+    <!-- Quote -->
+    <blockquote class="border-l-4 pl-4" style={`border-color: ${card.colour}`}>
+      <p class="font-arcade text-[11px] leading-relaxed text-[var(--text-muted)] italic">
+        "{card.quote}"
+      </p>
+    </blockquote>
+
+    <!-- Description -->
+    <p class="text-[var(--text-primary)] leading-relaxed">{card.description}</p>
+
+    <!-- Stats -->
+    <div class="space-y-4 p-4 rounded-xl bg-white/5">
+      <h2 class="font-arcade text-[10px] text-[var(--text-muted)] uppercase tracking-widest">Stats</h2>
+      <StatBar label="Influence" value={card.influence} colour={card.colour} />
+      <StatBar label="Quarters" value={card.quarters} colour={card.colour} />
+      <StatBar label="Legacy" value={card.legacy} colour={card.colour} />
+    </div>
+
+    <!-- Tags -->
+    <div class="flex flex-wrap gap-2">
+      {card.tags.map((tag) => (
+        <span class="text-[10px] font-mono bg-white/5 border border-white/10 rounded px-2 py-1 text-[var(--text-muted)]">
+          #{tag}
+        </span>
+      ))}
+    </div>
+
+    <!-- Island slot -->
+    <slot />
+  </div>
+</article>

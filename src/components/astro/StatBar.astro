@@ -1,0 +1,23 @@
+---
+interface Props {
+  label: string;
+  value: number;
+  colour?: string;
+}
+
+const { label, value, colour = 'var(--arcade-teal)' } = Astro.props;
+const clampedValue = Math.max(0, Math.min(100, value));
+---
+
+<div class="space-y-1">
+  <div class="flex justify-between items-baseline">
+    <span class="font-body text-xs text-[var(--text-muted)] uppercase tracking-wider">{label}</span>
+    <span class="font-mono text-sm font-bold" style={`color: ${colour}`}>{clampedValue}</span>
+  </div>
+  <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+    <div
+      class="h-full rounded-full stat-bar-fill"
+      style={`--stat-value: ${clampedValue}%; background-color: ${colour};`}
+    />
+  </div>
+</div>

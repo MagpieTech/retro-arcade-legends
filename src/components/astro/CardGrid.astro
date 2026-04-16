@@ -1,0 +1,36 @@
+---
+interface Card {
+  id: string;
+  name: string;
+  type: 'character' | 'machine' | 'moment';
+  era: '1970s' | '1980s' | '1990s';
+  rarity: 'common' | 'rare' | 'legendary';
+  influence: number;
+  quarters: number;
+  legacy: number;
+  description: string;
+  quote: string;
+  colour: string;
+  tags: string[];
+  studio: string;
+  debut: number;
+}
+
+interface Props {
+  cards: Card[];
+  id?: string;
+}
+
+import CardThumbnail from './CardThumbnail.astro';
+
+const { cards, id } = Astro.props;
+---
+
+<div
+  id={id}
+  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+>
+  {cards.map((card) => (
+    <CardThumbnail card={card} />
+  ))}
+</div>

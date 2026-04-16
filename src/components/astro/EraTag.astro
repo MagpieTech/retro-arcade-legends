@@ -1,0 +1,23 @@
+---
+interface Props {
+  era: '1970s' | '1980s' | '1990s';
+  size?: 'sm' | 'md';
+}
+
+const { era, size = 'md' } = Astro.props;
+
+const colours = {
+  '1970s': 'bg-[var(--arcade-teal)]/20 text-[var(--arcade-teal)] border border-[var(--arcade-teal)]/40',
+  '1980s': 'bg-[var(--arcade-purple)]/20 text-[var(--arcade-purple)] border border-[var(--arcade-purple)]/40',
+  '1990s': 'bg-[var(--arcade-green)]/20 text-[var(--arcade-green)] border border-[var(--arcade-green)]/40',
+};
+
+const sizes = {
+  sm: 'text-[9px] px-1.5 py-0.5',
+  md: 'text-[10px] px-2 py-1',
+};
+---
+
+<span class:list={['font-arcade rounded uppercase', colours[era], sizes[size]]}>
+  {era}
+</span>

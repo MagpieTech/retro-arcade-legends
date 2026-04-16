@@ -1,0 +1,42 @@
+---
+import Layout from '../components/astro/Layout.astro';
+---
+
+<Layout title="404 — Game Over">
+  <div class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 space-y-8">
+    <div class="space-y-4">
+      <div class="font-arcade text-6xl sm:text-8xl text-[var(--arcade-red)] leading-none">404</div>
+      <div class="font-arcade text-lg sm:text-2xl text-[var(--text-primary)] leading-relaxed">
+        GAME OVER
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <p class="font-arcade text-xs text-[var(--text-muted)]">The page you seek has been eaten by a ghost.</p>
+      <p class="font-arcade text-xs text-[var(--text-muted)]">Or maybe it never existed at all.</p>
+    </div>
+
+    <!-- Pixelated ghost -->
+    <div class="font-arcade text-4xl text-[var(--arcade-purple)] animate-bounce select-none" aria-hidden="true">
+      👾
+    </div>
+
+    <div class="space-y-3">
+      <p class="font-arcade text-[10px] text-[var(--arcade-gold)] uppercase tracking-widest">Continue?</p>
+      <div class="flex items-center justify-center gap-4">
+        <a
+          href="/"
+          class="font-arcade text-[11px] bg-[var(--arcade-gold)] text-black px-5 py-2.5 rounded-lg hover:bg-[var(--arcade-gold)]/80 transition-colors"
+        >
+          1UP — Home
+        </a>
+        <a
+          href="/cards"
+          class="font-arcade text-[11px] border border-white/20 text-[var(--text-primary)] px-5 py-2.5 rounded-lg hover:border-white/40 transition-colors"
+        >
+          2UP — Cards
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,69 @@
+---
+import Layout from '../components/astro/Layout.astro';
+import CardGrid from '../components/astro/CardGrid.astro';
+import CardBrowser from '../components/islands/CardBrowser';
+import cards from '../data/cards.json';
+
+const featured = [
+  cards.find((c) => c.id === 'pac-man')!,
+  cards.find((c) => c.id === 'street-fighter-ii')!,
+  cards.find((c) => c.id === 'space-invaders')!,
+  cards.find((c) => c.id === 'donkey-kong')!,
+  cards.find((c) => c.id === 'galaga')!,
+].filter(Boolean);
+---
+
+<Layout title="Home">
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-white/10">
+    <div class="absolute inset-0 bg-gradient-to-br from-[var(--arcade-gold)]/5 via-transparent to-[var(--arcade-red)]/5 pointer-events-none" />
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center space-y-6">
+      <div class="inline-block text-[10px] font-arcade text-[var(--arcade-teal)] border border-[var(--arcade-teal)]/40 bg-[var(--arcade-teal)]/10 px-3 py-1.5 rounded uppercase tracking-widest">
+        Insert Coin to Continue
+      </div>
+      <h1 class="font-arcade text-2xl sm:text-4xl leading-relaxed text-[var(--text-primary)]">
+        Retro Arcade<br/>Legends
+      </h1>
+      <p class="max-w-2xl mx-auto text-[var(--text-muted)] text-lg leading-relaxed">
+        30 collectable cards celebrating the characters, machines, and moments that defined arcade gaming from the 1970s through the 1990s.
+      </p>
+      <div class="flex items-center justify-center gap-4 pt-2">
+        <a
+          href="/cards"
+          class="font-arcade text-[11px] bg-[var(--arcade-gold)] text-black px-6 py-3 rounded-lg hover:bg-[var(--arcade-gold)]/80 transition-colors"
+        >
+          View All Cards
+        </a>
+        <a
+          href="/compare"
+          class="font-arcade text-[11px] border border-white/20 text-[var(--text-primary)] px-6 py-3 rounded-lg hover:border-white/40 transition-colors"
+        >
+          Compare
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search across all cards (island) -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-6">
+    <h2 class="font-arcade text-sm text-[var(--text-primary)]">Search the Collection</h2>
+    <CardBrowser client:load cards={cards} />
+  </section>
+
+  <!-- Stats bar -->
+  <section class="border-t border-white/10 bg-[var(--bg-card)]/40 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
+      {[
+        { value: '30', label: 'Cards' },
+        { value: '3', label: 'Eras' },
+        { value: '5', label: 'Legendary' },
+        { value: '3', label: 'Types' },
+      ].map(({ value, label }) => (
+        <div>
+          <div class="font-arcade text-2xl text-[var(--arcade-gold)]">{value}</div>
+          <div class="text-xs text-[var(--text-muted)] mt-1 uppercase tracking-wider">{label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>

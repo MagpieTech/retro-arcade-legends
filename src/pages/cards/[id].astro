@@ -1,0 +1,55 @@
+---
+import Layout from '../../components/astro/Layout.astro';
+import CardDetail from '../../components/astro/CardDetail.astro';
+import FavouriteButton from '../../components/islands/FavouriteButton';
+import cards from '../../data/cards.json';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return cards.map((card) => ({
+    params: { id: card.id },
+    props: { card },
+  }));
+};
+
+const { card } = Astro.props;
+---
+
+<Layout title={card.name} description={card.description}>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+    <nav class="flex items-center gap-2 text-sm text-[var(--text-muted)]">
+      <a href="/" class="hover:text-[var(--text-primary)] transition-colors">Home</a>
+      <span>/</span>
+      <a href="/cards" class="hover:text-[var(--text-primary)] transition-colors">Cards</a>
+      <span>/</span>
+      <span class="text-[var(--text-primary)]">{card.name}</span>
+    </nav>
+
+    <CardDetail card={card}>
+      <FavouriteButton client:idle cardId={card.id} />
+    </CardDetail>
+
+    <!-- Related: same era -->
+    <section class="space-y-4">
+      <h2 class="font-arcade text-xs text-[var(--text-muted)] uppercase tracking-widest">More from the {card.era}</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        {cards
+          .filter((c) => c.era === card.era && c.id !== card.id)
+          .slice(0, 3)
+          .map((c) => (
+            <a
+              href={`/cards/${c.id}`}
+              class="group rounded-lg border border-white/10 bg-[var(--bg-card)] p-3 hover:border-white/30 transition-colors"
+            >
+              <div class="h-0.5 w-full rounded mb-2" style={`background-color: ${c.colour}`} />
+              <div class="font-arcade text-[10px] leading-relaxed text-[var(--text-primary)] group-hover:text-[var(--arcade-gold)] transition-colors line-clamp-2">
+                {c.name}
+              </div>
+              <div class="text-[9px] text-[var(--text-muted)] mt-1">{c.studio} · {c.debut}</div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</Layout>
